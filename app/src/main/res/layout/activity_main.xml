@@ -118,6 +118,7 @@
         android:text="Show All"
         android:onClick="show"
         android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
         app:layout_constraintBaseline_toBaselineOf="@id/clearButton"
         app:layout_constraintStart_toEndOf="@id/clearButton"
         />
