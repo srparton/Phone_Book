@@ -48,13 +48,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 //-------------------------------------------------------
-    public void newProduct(View view) {
-        Product product = new Product(lnameBox.getText().toString(),
+    public void newContacts(View view) {
+        Contacts Contacts = new Contacts(lnameBox.getText().toString(),
                 Integer.parseInt(phnNumBox.getText().toString()));
         // class instance used to add values in the database
         ContentValues values = new ContentValues();
-        values.put(MyContentProvider.COLUMN_FNAME, product.getlastName());
-        values.put(MyContentProvider.COLUMN_PHONENUM,product.getQuantity());
+        values.put(MyContentProvider.COLUMN_FNAME, Contacts.getFirstName());
+        values.put(MyContentProvider.COLUMN_PHONENUM,Contacts.getPhoneNum());
         // please note how we access our table- using ContentResolver instance
         ContentResolver contentResolver = getContentResolver();
         Uri uri = contentResolver.insert(MyContentProvider.CONTENT_URI,values );
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         phnNumBox.setText("" );
     }
 //--------------------------------------------------------
-    public void lookupProduct(View view){
+    public void lookupContacts(View view){
         String [] projection = {MyContentProvider.COLUMN_ID,
                 MyContentProvider.COLUMN_FNAME, MyContentProvider.COLUMN_LNAME,
                 MyContentProvider.COLUMN_PHONENUM};
@@ -71,24 +71,24 @@ public class MainActivity extends AppCompatActivity {
         ContentResolver contentResolver = getContentResolver();
         Cursor cursor = contentResolver.query(MyContentProvider.CONTENT_URI,projection ,selection ,null,null );
 
-        Product product = new Product();
+        Contacts Contacts = new Contacts();
         if(cursor.moveToFirst()){
-            product.setId(cursor.getInt(0));
-            product.setlastName(cursor.getString(1));
-            product.setQuantity(cursor.getInt(2));
+            Contacts.setId(cursor.getInt(0));
+            Contacts.setLastName(cursor.getString(1));
+            Contacts.setPhoneNum(cursor.getInt(2));
             cursor.close();
         }
         else
-            product = null;
-        if(product != null){
-            fnameBox.setText(String.valueOf(product.getId()));
-            phnNumBox.setText(String.valueOf(product.getQuantity()));
+            Contacts = null;
+        if(Contacts != null){
+            fnameBox.setText(String.valueOf(Contacts.getId()));
+            phnNumBox.setText(String.valueOf(Contacts.getPhoneNum()));
         }
         else
             fnameBox.setText("No match found");
     }
 //------------------------------------------------------------------------
-    public void removeProduct (View view){
+    public void removeContacts (View view){
         String selection = "fix this later = \"" + lnameBox.getText().toString() + "\"";
         ContentResolver contentResolver = getContentResolver();
         int result = contentResolver.delete(MyContentProvider.CONTENT_URI, selection,null );
