@@ -26,7 +26,7 @@ public class Contacts {
     public void setFirstName(String s){
        firstName = s;
     }
-    public void setLirstName(String t){
+    public void setLastName(String t){
        lastName = t;
     }
     public void setPhoneNum(int q){
