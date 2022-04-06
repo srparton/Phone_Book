@@ -19,7 +19,7 @@ public class MyContentProvider extends ContentProvider {
     // database table name
     private static final String TABLE_CONTACTS = "contacts";
     // for defining column names of the table
-    public static final String COLUMN_ID = "id";
+//    public static final String COLUMN_ID = "id";
     public static final String COLUMN_FNAME = "fName";
     public static final String COLUMN_LNAME = "lName";
     public static final String COLUMN_PHONENUM = "phoneNumber";
@@ -133,8 +133,7 @@ public class MyContentProvider extends ContentProvider {
         public void onCreate(SQLiteDatabase sqLiteDatabase) {
             Log.d("onCreate", "onCreate: Have entered");
             String create_product_table = "CREATE TABLE " + TABLE_CONTACTS + "(" +
-                    COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_FNAME +
-                    " TEXT, "  + COLUMN_LNAME +
+                   COLUMN_FNAME + " TEXT PRIMARY KEY, " + COLUMN_LNAME +
                     " TEXT, " + COLUMN_PHONENUM + " INTEGER )";
             Log.d("db", "create: "+create_product_table);
             sqLiteDatabase.execSQL(create_product_table);

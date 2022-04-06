@@ -23,7 +23,7 @@ public class DisplayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("Display", "In Display Activity");
         setContentView(R.layout.activity_display);
-        String [] projection = {MyContentProvider.COLUMN_ID, MyContentProvider.COLUMN_FNAME,
+        String [] projection = {MyContentProvider.COLUMN_FNAME,
                 MyContentProvider.COLUMN_LNAME,MyContentProvider.COLUMN_PHONENUM};
         Cursor cursor = getContentResolver().query(MyContentProvider.CONTENT_URI,projection,
                 null,null);

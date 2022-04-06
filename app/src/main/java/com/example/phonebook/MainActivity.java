@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         fnameBox = findViewById(R.id.firstName);
         lnameBox = findViewById(R.id.lastName);
         phnNumBox = findViewById(R.id.phoneNumber);
-//        fnameBox.setEnabled(false);
     }
 
     //------------------------------------------
@@ -71,35 +70,41 @@ public class MainActivity extends AppCompatActivity {
         phnNumBox.setText("");
     }
     //--------------------------------------------------------
-    public void lookupContacts(View view) {
-        String[] projection = {MyContentProvider.COLUMN_ID,
-                MyContentProvider.COLUMN_FNAME, MyContentProvider.COLUMN_LNAME,
-                MyContentProvider.COLUMN_PHONENUM};
-        String selection = "Contact Phone Number = \"" + phnNumBox.getText().toString() + "\"";
-        // access our table through a ContentResolver instance
-        ContentResolver contentResolver = getContentResolver();
-        Cursor cursor = contentResolver.query(MyContentProvider.CONTENT_URI, projection, selection, null, null);
-
-        Contacts contacts = new Contacts();
-        if (cursor.moveToFirst()) {
-            contacts.setId(cursor.getInt(0));
-            contacts.setFirstName(cursor.getString(1));
-            contacts.setLastName(cursor.getString(3));
-            contacts.setPhoneNum(cursor.getInt(4));
-            cursor.close();
-        } else
-            contacts = null;
-        if (contacts != null) {
-            fnameBox.setText(String.valueOf(contacts.getFirstName()));
-            lnameBox.setText(String.valueOf(contacts.getLastName()));
-            phnNumBox.setText(String.valueOf(contacts.getPhoneNum()));
-        } else
-            phnNumBox.setText("No match found");
+    public void clear(View view){
+        fnameBox.setText("");
+        lnameBox.setText("");
+        phnNumBox.setText("");
+        fnameBox.requestFocus();
     }
+
+//    public void lookupContacts(View view) {
+//        String[] projection = {MyContentProvider.COLUMN_FNAME, MyContentProvider.COLUMN_LNAME,
+//                MyContentProvider.COLUMN_PHONENUM};
+//        String selection = "Contact Phone Number = \"" + phnNumBox.getText().toString() + "\"";
+//        // access our table through a ContentResolver instance
+//        ContentResolver contentResolver = getContentResolver();
+//        Cursor cursor = contentResolver.query(MyContentProvider.CONTENT_URI, projection, selection, null, null);
+//
+//        Contacts contacts = new Contacts();
+//        if (cursor.moveToFirst()) {
+//            contacts.setId(cursor.getInt(0));
+//            contacts.setFirstName(cursor.getString(1));
+//            contacts.setLastName(cursor.getString(3));
+//            contacts.setPhoneNum(cursor.getInt(4));
+//            cursor.close();
+//        } else
+//            contacts = null;
+//        if (contacts != null) {
+//            fnameBox.setText(String.valueOf(contacts.getFirstName()));
+//            lnameBox.setText(String.valueOf(contacts.getLastName()));
+//            phnNumBox.setText(String.valueOf(contacts.getPhoneNum()));
+//        } else
+//            phnNumBox.setText("No match found");
+//    }
 
     //------------------------------------------------------------------------
     public void removeContacts(View view) {
-        String selection = "Contact Number = \"" + phnNumBox.getText().toString() + "\"";
+        String selection = "fName = \"" + fnameBox.getText().toString() + "\"";
         ContentResolver contentResolver = getContentResolver();
         int result = contentResolver.delete(MyContentProvider.CONTENT_URI, selection, null);
         if (result > 0) {
