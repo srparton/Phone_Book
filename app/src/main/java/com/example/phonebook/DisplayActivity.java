@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ public class DisplayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("Display", "In Display Activity");
         setContentView(R.layout.activity_display);
         String [] projection = {MyContentProvider.COLUMN_ID, MyContentProvider.COLUMN_FNAME,
                 MyContentProvider.COLUMN_LNAME,MyContentProvider.COLUMN_PHONENUM};
@@ -52,9 +54,12 @@ public class DisplayActivity extends AppCompatActivity {
         t2.setTypeface(null, Typeface.BOLD);
         t2.setPadding(20,20,20,20);
         tableRow.addView(t2);
+//        Log.d("Display", "tableRow: "+tableRow);
 
         tableLayout.addView(tableRow);
         for (int i = 0; i < count; i++) {
+            Log.d("Display", "here");
+
             tableRow = new TableRow(this);
             t0 = new TextView(this);
             t0.setText(cursor.getString(cursor.getColumnIndex("fName")));
@@ -69,7 +74,7 @@ public class DisplayActivity extends AppCompatActivity {
             tableRow.addView(t1);
 
             t2 = new TextView(this);
-            t2.setText(cursor.getString(cursor.getColumnIndex("phnNum")));
+            t2.setText(cursor.getString(cursor.getColumnIndex("phoneNumber")));
             t2.setTextColor(Color.BLACK);
             t2.setPadding(20,20,20,20);
             tableRow.addView(t2);
@@ -79,4 +84,4 @@ public class DisplayActivity extends AppCompatActivity {
         }
 
     }
-}}
+}

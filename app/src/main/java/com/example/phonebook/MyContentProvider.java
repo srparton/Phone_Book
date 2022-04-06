@@ -9,10 +9,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 public class MyContentProvider extends ContentProvider {
     // defining authority so that other application can access it
-    private static final String AUTHORITY = "com.example.phonebook.MyContentProvider";
+    private static final String AUTHORITY = "com.example.phonebook.mycontentprovider";
     // for creating database object to perform query
     private static final String DATABASE_NAME = "phone_bookDB.db";
     // database table name
@@ -21,7 +22,7 @@ public class MyContentProvider extends ContentProvider {
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_FNAME = "fName";
     public static final String COLUMN_LNAME = "lName";
-    public static final String COLUMN_PHONENUM = "quantity";
+    public static final String COLUMN_PHONENUM = "phoneNumber";
     // declaring version of the database
     private static final int DATABASE_VERSION = 1;
     // constant used for accessing the table
@@ -56,6 +57,7 @@ public class MyContentProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
+        Log.d("insert", "insert:"+values);
         int uriType = uriMatcher.match(uri);
         long id = 0;
         if (uriType == CONTACTS){
@@ -80,10 +82,15 @@ public class MyContentProvider extends ContentProvider {
         //create a database
         DatabaseHelper dbHelper = new DatabaseHelper(getContext());
         sqlDB = dbHelper.getWritableDatabase();
-        if(sqlDB != null)
+        Log.d("onCreate", "db: "+sqlDB);
+        if(sqlDB != null) {
+            Log.d("onCreate", "onCreateBool: True");
             return true;
-        else
+        }
+        else{
+            Log.d("onCreate", "onCreateBool: False");
             return false;
+        }
     }
 
     @Override
@@ -124,10 +131,12 @@ public class MyContentProvider extends ContentProvider {
 
         @Override
         public void onCreate(SQLiteDatabase sqLiteDatabase) {
+            Log.d("onCreate", "onCreate: Have entered");
             String create_product_table = "CREATE TABLE " + TABLE_CONTACTS + "(" +
                     COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_FNAME +
                     " TEXT, "  + COLUMN_LNAME +
-                    " TEXT, " +COLUMN_PHONENUM + "INTEGER )";
+                    " TEXT, " + COLUMN_PHONENUM + " INTEGER )";
+            Log.d("db", "create: "+create_product_table);
             sqLiteDatabase.execSQL(create_product_table);
         }
 

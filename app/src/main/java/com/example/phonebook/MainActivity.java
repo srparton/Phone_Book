@@ -21,14 +21,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-//----------------------------------------------
-    EditText lnameBox, phnNumBox, fnameBox;
-//-----------------------------------------------
+    //----------------------------------------------
+    EditText fnameBox, lnameBox, phnNumBox;
+
+    //-----------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,64 +40,72 @@ public class MainActivity extends AppCompatActivity {
         phnNumBox = findViewById(R.id.phoneNumber);
 //        fnameBox.setEnabled(false);
     }
-//------------------------------------------
-    public void show(View view){
-        fnameBox.setText("not-assigned");
+
+    //------------------------------------------
+    public void show(View view) {
+        fnameBox.setText("");
         lnameBox.setText("");
         phnNumBox.setText("");
-        lnameBox.requestFocus();
-        Intent intent = new Intent(this,DisplayActivity.class);
+        fnameBox.requestFocus();
+        Intent intent = new Intent(this, DisplayActivity.class);
         startActivity(intent);
     }
-//-------------------------------------------------------
+
+    //-------------------------------------------------------
     public void newContacts(View view) {
-        Contacts Contacts = new Contacts(lnameBox.getText().toString(),
-                Integer.parseInt(phnNumBox.getText().toString()));
+        int pNum =
+        Log.d("parseInt", "phoneNum: "+Long.parseLong(phnNumBox.getText().toString()));
+        Contacts contacts = new Contacts(fnameBox.getText().toString(), lnameBox.getText().toString(),
+                Long.parseLong(phnNumBox.getText().toString()));
         // class instance used to add values in the database
         ContentValues values = new ContentValues();
-        values.put(MyContentProvider.COLUMN_FNAME, Contacts.getFirstName());
-        values.put(MyContentProvider.COLUMN_PHONENUM,Contacts.getPhoneNum());
+        values.put(MyContentProvider.COLUMN_FNAME, contacts.getFirstName());
+        values.put(MyContentProvider.COLUMN_LNAME, contacts.getLastName());
+        values.put(MyContentProvider.COLUMN_PHONENUM,contacts.getPhoneNum());
         // please note how we access our table- using ContentResolver instance
         ContentResolver contentResolver = getContentResolver();
-        Uri uri = contentResolver.insert(MyContentProvider.CONTENT_URI,values );
+        Log.d("values", "values = "+values);
+        Uri uri = contentResolver.insert(MyContentProvider.CONTENT_URI, values);
+        fnameBox.setText("");
         lnameBox.setText("");
-        phnNumBox.setText("" );
+        phnNumBox.setText("");
     }
-//--------------------------------------------------------
-    public void lookupContacts(View view){
-        String [] projection = {MyContentProvider.COLUMN_ID,
+    //--------------------------------------------------------
+    public void lookupContacts(View view) {
+        String[] projection = {MyContentProvider.COLUMN_ID,
                 MyContentProvider.COLUMN_FNAME, MyContentProvider.COLUMN_LNAME,
                 MyContentProvider.COLUMN_PHONENUM};
-        String selection = "NULL FIX HERE = \""+ lnameBox.getText().toString()+ "\"";
+        String selection = "Contact Phone Number = \"" + phnNumBox.getText().toString() + "\"";
         // access our table through a ContentResolver instance
         ContentResolver contentResolver = getContentResolver();
-        Cursor cursor = contentResolver.query(MyContentProvider.CONTENT_URI,projection ,selection ,null,null );
+        Cursor cursor = contentResolver.query(MyContentProvider.CONTENT_URI, projection, selection, null, null);
 
-        Contacts Contacts = new Contacts();
-        if(cursor.moveToFirst()){
-            Contacts.setId(cursor.getInt(0));
-            Contacts.setLastName(cursor.getString(1));
-            Contacts.setPhoneNum(cursor.getInt(2));
+        Contacts contacts = new Contacts();
+        if (cursor.moveToFirst()) {
+            contacts.setId(cursor.getInt(0));
+            contacts.setFirstName(cursor.getString(1));
+            contacts.setLastName(cursor.getString(3));
+            contacts.setPhoneNum(cursor.getInt(4));
             cursor.close();
-        }
-        else
-            Contacts = null;
-        if(Contacts != null){
-            fnameBox.setText(String.valueOf(Contacts.getId()));
-            phnNumBox.setText(String.valueOf(Contacts.getPhoneNum()));
-        }
-        else
-            fnameBox.setText("No match found");
+        } else
+            contacts = null;
+        if (contacts != null) {
+            fnameBox.setText(String.valueOf(contacts.getFirstName()));
+            lnameBox.setText(String.valueOf(contacts.getLastName()));
+            phnNumBox.setText(String.valueOf(contacts.getPhoneNum()));
+        } else
+            phnNumBox.setText("No match found");
     }
-//------------------------------------------------------------------------
-    public void removeContacts (View view){
-        String selection = "fix this later = \"" + lnameBox.getText().toString() + "\"";
+
+    //------------------------------------------------------------------------
+    public void removeContacts(View view) {
+        String selection = "Contact Number = \"" + phnNumBox.getText().toString() + "\"";
         ContentResolver contentResolver = getContentResolver();
-        int result = contentResolver.delete(MyContentProvider.CONTENT_URI, selection,null );
-        if(result > 0){
-            fnameBox.setText("" + result + " record(s) deleted");
-            lnameBox.setText("" );
-            phnNumBox.setText("" );
-        }
-        else fnameBox.setText("No match found");
+        int result = contentResolver.delete(MyContentProvider.CONTENT_URI, selection, null);
+        if (result > 0) {
+            fnameBox.setText("");
+            lnameBox.setText("");
+            phnNumBox.setText("" + result + " record(s) deleted");
+        } else phnNumBox.setText("No match found");
     }
+}

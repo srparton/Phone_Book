@@ -1,4 +1,7 @@
 package com.example.phonebook;
+
+import android.util.Log;
+
 /*
  an utility class to store and retrieve Contact instances.
 */
@@ -6,15 +9,16 @@ public class Contacts {
     private int id;
     private String firstName;
     private String lastName;
-    private int phoneNum;
+    private long phoneNum;
     public Contacts(){
     }
-    public Contacts(String s,String t, int q){
+    public Contacts(String s,String t, long q){
+        Log.d("cons", "Made it into Contacts construtor: ");
        firstName = s;
        lastName = t;
        phoneNum = q;
     }
-    public Contacts(int id, String s,String t, int q){
+    public Contacts(int id, String s,String t, long q){
        firstName = s;
        lastName = t;
        phoneNum = q;
@@ -29,7 +33,7 @@ public class Contacts {
     public void setLastName(String t){
        lastName = t;
     }
-    public void setPhoneNum(int q){
+    public void setPhoneNum(long q){
        phoneNum = q;
     }
     public int getId(){
@@ -39,9 +43,9 @@ public class Contacts {
        return firstName;
     }
     public String getLastName(){
-       return firstName;
+       return lastName;
     }
-    public  int getPhoneNum(){
+    public long getPhoneNum(){
        return phoneNum;
     }
 }
