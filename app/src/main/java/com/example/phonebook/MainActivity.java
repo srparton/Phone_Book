@@ -1,16 +1,18 @@
 package com.example.phonebook;
 /*
-   This app shows how to share stored data in this app with another app.
-   Android provides an interface called ContentProvider to act as a bridge between two apps to enable them
-   to share data which is demonstrated in today's apps.
-   The app will uses a classes named MyContentProvider to server as the interface.
-   The class that facilitates storage of data is an innerclass of MyContentProvider which uses
-   SQLiteDatabase instance to store data.
-   MyContentProvider class extends the class ContentProvider and it uses its six overriding
-   methods to access the database( or table) created by the innerclass.
-   Please take time to understand MyContentProvider class and how this class was added to the
-   package com.example.contentprovider.
-   author ralex
+    Phone Book: This app will create a address book for phone numbers. It will take in first name, last name,
+    and phone number. It should display the contact info (which it wont right now for some reason)
+    clear text fields, add new contact and delete contact. All fucntions except displaying the
+    address book work.
+
+    Make Call: This app will query data from database and show the phone number associated with name
+    then the app will make a call to that number.
+
+    Learning - What i learned was how to get a content provider working as well as how to test a
+    database on a mobile device. I didnt think to delete the app and thus clear the database until
+    a long while of debugging had taken place. It was frustrating to test as well becasue in some
+    devices my app worked but on my brothers newer android app the make call app did not work.
+   author Spencer Parton and Nick Gallegos
    version 03/28/2022
 */
 import androidx.appcompat.app.AppCompatActivity;
